@@ -8,6 +8,4 @@ import java.util.List;
 public interface UserRepo extends JpaRepository<UserEntity,Integer>{
     List<UserEntity> findByEmail(String emailAddress);
 
-
-    boolean existsByEmail(String emailAddress);
 }

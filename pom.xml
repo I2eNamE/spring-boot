@@ -58,6 +58,11 @@
 			<!-- Temporary explicit version to fix Thymeleaf bug -->
 			<version>3.1.1.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.4.0</version>
+		</dependency>
 
 	</dependencies>
 

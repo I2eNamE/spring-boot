@@ -37,8 +37,24 @@ public class UserService {
 
 
 
-    public String login(LoginModel login){
-        if(Objects.isNull(login.getEmail()) ||Objects.isNull(login.getPassword())){return "email or password is null";}
-        return login.getEmail().toString()+login.getPassword().toString();
+    public String login(LoginModel login) throws Exception{
+        String email = login.getEmail();
+        String password = login.getPassword();
+        if(Objects.isNull(email) ||Objects.isNull(password)){return "something null";}
+        try{
+            List<UserEntity> opt =userRepo.findByEmail(email);
+                UserEntity data = opt.get(0);
+                if (passwordEncoder.matches(password, data.getPassword())){
+
+
+                    return "password correct";
+                }
+                else{
+                    return "email or password incorrect";
+                }
+        }
+        catch (Exception e){
+            return "email or password incorrect";
+        }
     }
 }
