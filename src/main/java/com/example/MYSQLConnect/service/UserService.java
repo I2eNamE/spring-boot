@@ -14,20 +14,24 @@ import java.util.Optional;
 public class UserService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
 
-    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
-        ;
+        this.tokenService = tokenService;
     }
 
-    public List<UserEntity> getAllUser(){
+    public List<UserEntity> getAllUser() {
         return userRepo.findAll();
     }
-    public Optional<UserEntity> getUserById(int id){return userRepo.findById(id);}
 
-    public UserEntity createUser(UserEntity user){
+    public Optional<UserEntity> getUserById(int id) {
+        return userRepo.findById(id);
+    }
+
+    public UserEntity createUser(UserEntity user) {
         UserEntity opt = new UserEntity();
         opt.setEmail(user.getEmail());
         opt.setName(user.getName());
@@ -36,24 +40,21 @@ public class UserService {
     }
 
 
-
-    public String login(LoginModel login) throws Exception{
+    public String login(LoginModel login) throws Exception {
         String email = login.getEmail();
         String password = login.getPassword();
-        if(Objects.isNull(email) ||Objects.isNull(password)){return "something null";}
-        try{
-            List<UserEntity> opt =userRepo.findByEmail(email);
-                UserEntity data = opt.get(0);
-                if (passwordEncoder.matches(password, data.getPassword())){
-
-
-                    return "password correct";
-                }
-                else{
-                    return "email or password incorrect";
-                }
+        if (Objects.isNull(email) || Objects.isNull(password)) {
+            return "something null";
         }
-        catch (Exception e){
+        try {
+            List<UserEntity> opt = userRepo.findByEmail(email);
+            UserEntity user = opt.get(0);
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                return tokenService.tokenize(user);
+            } else {
+                return "email or password incorrect";
+            }
+        } catch (Exception e) {
             return "email or password incorrect";
         }
     }

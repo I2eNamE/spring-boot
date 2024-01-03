@@ -21,8 +21,8 @@ public class login {
     }
 
     @PostMapping
-    public Optional<String> login(@RequestBody LoginModel login) throws Exception {
+    public String login(@RequestBody LoginModel login) throws Exception {
         String res = userService.login(login);
-        return Optional.ofNullable(res);
+        return res;
     }
 }
