@@ -31,6 +31,7 @@ public class TokenFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String authorization = request.getHeader("Authorization");
+
         if (ObjectUtils.isEmpty(authorization)) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
@@ -55,10 +56,12 @@ public class TokenFilter extends GenericFilterBean {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role));
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userId,"(protected)",authorities);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userId, "(protected)", authorities);
 
 
         SecurityContext context = SecurityContextHolder.getContext();
-        SecurityContextHolder.setContext(context);
+        context.setAuthentication(authentication);
+
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 }
