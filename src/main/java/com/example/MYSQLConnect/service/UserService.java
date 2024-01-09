@@ -61,17 +61,13 @@ public class UserService {
     }
 
 
-    public List<UserEntity> findUserByName(StringOnly name){
+    public UserEntity findUserByName(StringOnly name){
         List<UserEntity> user = userRepo.findByName(name.getString());
-        System.out.println(name.getString());
         if (Objects.isNull(user)) {
             return null ;
         }
         else {
-            return user;
-//            try{ UserEntity opt = user.get(0);
-//            return "can get user by name";}
-//            catch(Exception e){return "this is catch";}
+            return user.get(0);
         }
     }
 }

@@ -39,8 +39,8 @@ public class User {
     }
 
     @GetMapping("/findName")
-    public List<UserEntity> findUserByName(@RequestBody StringOnly name){
-        List<UserEntity> userByName = userService.findUserByName(name);
+    public UserEntity findUserByName(@RequestBody StringOnly name){
+        UserEntity userByName = userService.findUserByName(name);
         return userByName;
     }
 
