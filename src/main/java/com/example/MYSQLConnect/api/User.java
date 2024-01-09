@@ -2,6 +2,7 @@ package com.example.MYSQLConnect.api;
 
 
 import com.example.MYSQLConnect.entity.UserEntity;
+import com.example.MYSQLConnect.model.StringOnly;
 import com.example.MYSQLConnect.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,11 @@ public class User {
         return ResponseEntity.status(HttpStatus.CREATED).body(customer);
     }
 
+    @GetMapping("/findName")
+    public List<UserEntity> findUserByName(@RequestBody StringOnly name){
+        List<UserEntity> userByName = userService.findUserByName(name);
+        return userByName;
+    }
 
 
 }

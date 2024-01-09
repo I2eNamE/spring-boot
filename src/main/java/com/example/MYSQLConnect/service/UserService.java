@@ -1,7 +1,8 @@
 package com.example.MYSQLConnect.service;
 
 import com.example.MYSQLConnect.entity.UserEntity;
-import com.example.MYSQLConnect.model.LoginModel;
+import com.example.MYSQLConnect.model.LoginReq;
+import com.example.MYSQLConnect.model.StringOnly;
 import com.example.MYSQLConnect.repository.UserRepo;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class UserService {
     }
 
 
-    public String login(LoginModel login) throws Exception {
+    public String login(LoginReq login) throws Exception {
         String email = login.getEmail();
         String password = login.getPassword();
         if (Objects.isNull(email) || Objects.isNull(password)) {
@@ -56,6 +57,21 @@ public class UserService {
             }
         } catch (Exception e) {
             return "email or password incorrect";
+        }
+    }
+
+
+    public List<UserEntity> findUserByName(StringOnly name){
+        List<UserEntity> user = userRepo.findByName(name.getString());
+        System.out.println(name.getString());
+        if (Objects.isNull(user)) {
+            return null ;
+        }
+        else {
+            return user;
+//            try{ UserEntity opt = user.get(0);
+//            return "can get user by name";}
+//            catch(Exception e){return "this is catch";}
         }
     }
 }

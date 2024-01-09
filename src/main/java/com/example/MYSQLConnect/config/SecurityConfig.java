@@ -17,7 +17,7 @@ public class SecurityConfig {
 
     private final TokenService tokenService;
 
-    private final String[] PUBLIC = {"/user", "/test","/login"};
+    private final String[] PUBLIC = {"/user","/test","/login","/user/findName"};
 
     public SecurityConfig(TokenService tokenService) {
         this.tokenService = tokenService;
